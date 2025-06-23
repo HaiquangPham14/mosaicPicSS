@@ -15,43 +15,70 @@
 
         body {
             background: #0c0e1d;
-            height: 100vh;
             overflow: hidden;
+            height: 100vh;
+        }
+
+        /* Container chính với scroll ngang */
+        .horizontal-scroll-container {
+            display: flex;
+            height: 100vh;
+            min-width: 1000px; /* Chiều rộng tối thiểu đảm bảo hai ảnh ngang nhau */
+            overflow-x: auto;
+            overflow-y: hidden;
+            scrollbar-width: thin;
+            scrollbar-color: #0bb7af #121428;
+        }
+
+        /* Tùy chỉnh thanh cuộn cho Chrome */
+        .horizontal-scroll-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .horizontal-scroll-container::-webkit-scrollbar-track {
+            background: #121428;
+        }
+
+        .horizontal-scroll-container::-webkit-scrollbar-thumb {
+            background: #0bb7af;
+            border-radius: 4px;
         }
 
         .main-container {
             display: flex;
+            min-width: 100vw;
             height: 100vh;
-            width: 100vw;
         }
 
         /* Left section - Full size product image */
         .left-section {
-            flex: 1;
+            flex: 0 0 50vw;
             background: #0a0c1a;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
             position: relative;
+            min-width: 500px;
+            overflow: hidden;
         }
 
         .product-image {
-            width: 100%;
-            height: 100%;
+            max-width: 90%;
+            max-height: 90%;
             object-fit: contain;
             z-index: 2;
-            transition: transform 0.3s ease;
+            animation: float 6s ease-in-out infinite;
         }
 
         /* Right section - Mosaic artwork */
         .right-section {
-            flex: 1;
+            flex: 0 0 50vw;
             display: flex;
             flex-direction: column;
             background: #121428;
             position: relative;
             overflow: hidden;
+            min-width: 500px;
         }
 
         .mosaic-container {
@@ -133,8 +160,8 @@
         .progress-container {
             background: rgba(255, 255, 255, 0.08);
             border-radius: 12px;
-            padding: 15px;
-            margin: 15px;
+            padding: 12px;
+            margin: 12px;
             position: relative;
             z-index: 3;
             backdrop-filter: blur(5px);
@@ -144,25 +171,25 @@
         .progress-header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .progress-title {
-            font-size: 1rem;
+            font-size: 0.85rem;
             font-weight: 500;
             color: #c0c0c0;
         }
 
         .progress-percent {
-            font-size: 1.2rem;
+            font-size: 1rem;
             font-weight: 700;
             color: #ffd700;
         }
 
         .progress-bar {
-            height: 16px;
+            height: 12px;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
+            border-radius: 8px;
             overflow: hidden;
             position: relative;
         }
@@ -170,89 +197,167 @@
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, #0bb7af, #1428a0);
-            border-radius: 10px;
+            border-radius: 8px;
             width: 0%;
             display: flex;
             align-items: center;
             justify-content: flex-end;
-            padding-right: 10px;
-            font-size: 0.8rem;
+            padding-right: 6px;
+            font-size: 0.7rem;
             font-weight: 600;
             color: white;
-            box-shadow: 0 0 10px rgba(11, 183, 175, 0.5);
+            box-shadow: 0 0 8px rgba(11, 183, 175, 0.5);
             transition: width 1s ease-in-out;
-        }
-
-        /* Responsive styles */
-        @media (max-width: 900px) {
-            .main-container {
-                flex-direction: column;
-            }
-            
-            .left-section {
-                flex: 0 0 50%;
-            }
-            
-            .right-section {
-                flex: 1;
-            }
-            
-            .mosaic-grid {
-                grid-template-columns: repeat(15, 1fr);
-                grid-template-rows: repeat(30, 1fr);
-            }
-        }
-
-        @media (max-width: 600px) {
-            .mosaic-grid {
-                grid-template-columns: repeat(10, 1fr);
-                grid-template-rows: repeat(40, 1fr);
-            }
-            
-            .progress-container {
-                padding: 12px;
-            }
         }
 
         /* Animation for product image */
         @keyframes float {
             0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
+            50% { transform: translateY(-10px); }
             100% { transform: translateY(0px); }
         }
         
-        .product-image {
-            animation: float 6s ease-in-out infinite;
+        
+        @keyframes pulse {
+            0% { opacity: 0.4; }
+            50% { opacity: 1; }
+            100% { opacity: 0.4; }
+        }
+        
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateX(0);}
+            40% {transform: translateX(-10px);}
+            60% {transform: translateX(-5px);}
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 999px) {
+            body {
+                overflow-y: auto;
+                overflow-x: hidden;
+                height: auto;
+            }
+
+            .horizontal-scroll-container {
+                display: block;
+                height: auto;
+                min-width: 0;
+                overflow-x: hidden;
+                scrollbar-width: none;
+            }
+            .horizontal-scroll-container::-webkit-scrollbar {
+                display: none;
+            }
+
+            .main-container {
+                flex-direction: column;
+                height: auto;
+                min-width: 100%;
+            }
+
+            .left-section, .right-section {
+                flex-basis: auto;
+                min-width: 0;
+                width: 100%;
+                height: auto;
+            }
+
+            .left-section {
+                height: 60vh;
+            }
+
+            .right-section {
+                height: 100vh;
+            }
+        }
+        
+        @media (max-width: 999px) and (orientation: landscape) {
+            body {
+                overflow: hidden;
+                height: 100vh;
+            }
+
+            .horizontal-scroll-container {
+                display: flex;
+                height: 100vh;
+                overflow: hidden;
+            }
+
+            .main-container {
+                flex-direction: row;
+                width: 100vw;
+                height: 100vh;
+            }
+
+            .left-section, .right-section {
+                flex: 1 1 50%;
+                min-width: 0;
+                width: 50vw;
+                height: 100vh;
+            }
+
+            .product-image {
+                max-width: 90%;
+                max-height: 80%;
+            }
+
+            .progress-container {
+                padding: 8px;
+                margin: 8px;
+            }
+
+            .progress-header {
+                margin-bottom: 5px;
+            }
+
+            .progress-title {
+                font-size: 0.7rem;
+            }
+
+            .progress-percent {
+                font-size: 0.8rem;
+            }
+
+            .progress-bar {
+                height: 10px;
+            }
+
+            .progress-fill {
+                font-size: 0.6rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="main-container">
-        <div class="left-section">
-            <img class="product-image" 
-                 src="https://img.global.news.samsung.com/global/wp-content/uploads/2025/03/Samsung-Mobile-Galaxy-A-series-Galaxy-A56-5G-Galaxy-A36-5G-and-Galaxy-A26-5G_main1.jpg" 
-                 alt="Samsung Galaxy A Series">
-        </div>
-        
-        <div class="right-section">
-            <div class="mosaic-container" id="mosaicContainer">
-                <div class="mosaic-wrapper" id="mosaicWrapper">
-                    <img class="background-image" id="backgroundImage"
-                        src="https://photo.znews.vn/w660/Uploaded/wyhktpu/2025_04_14/image003.jpg" 
-                        alt="Khung ảnh mosaic">
-                    <div class="mosaic-grid" id="mosaicGrid">
-                        <!-- Grid cells will be generated by JavaScript -->
-                    </div>
-                </div>
+    <div class="horizontal-scroll-container">
+        <div class="main-container">
+            <div class="left-section">
+                <img class="product-image" 
+                     src="https://img.global.news.samsung.com/global/wp-content/uploads/2025/03/Samsung-Mobile-Galaxy-A-series-Galaxy-A56-5G-Galaxy-A36-5G-and-Galaxy-A26-5G_main1.jpg" 
+                     alt="Samsung Galaxy A Series">
             </div>
             
-            <div class="progress-container">
-                <div class="progress-header">
-                    <div class="progress-title">Tiến trình hoàn thành bức tranh cộng đồng</div>
-                    <div class="progress-percent" id="progressPercent">0%</div>
+            <div class="right-section">
+                <div class="mosaic-container" id="mosaicContainer">
+                    <div class="mosaic-wrapper" id="mosaicWrapper">
+                        <img class="background-image" id="backgroundImage"
+                            src="https://photo.znews.vn/w660/Uploaded/wyhktpu/2025_04_14/image003.jpg" 
+                            alt="Khung ảnh mosaic">
+                        <div class="mosaic-grid" id="mosaicGrid">
+                            <!-- Grid cells will be generated by JavaScript -->
+                        </div>
+                    </div>
                 </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill">0%</div>
+                
+                <div class="progress-container">
+                    <div class="progress-header">
+                        <div class="progress-title">Tiến trình hoàn thành bức tranh cộng đồng</div>
+                        <div class="progress-percent" id="progressPercent">0%</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill">0%</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -295,6 +400,19 @@
 
             // Start realtime updates
             startRealtimeUpdates();
+            
+            // Auto-scroll to center on small screens
+            if (window.innerWidth < 1000) {
+                setTimeout(() => {
+                    // Only scroll in portrait mode on mobile
+                    if (window.matchMedia("(orientation: portrait)").matches) {
+                        document.querySelector('.horizontal-scroll-container').scrollTo({
+                            left: window.innerWidth / 2,
+                            behavior: 'smooth'
+                        });
+                    }
+                }, 1000);
+            }
         });
 
         // Create the mosaic grid (25x20 = 500 cells)
