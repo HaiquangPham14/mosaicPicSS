@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mosaic Artwork</title>
+    <title>Samsung Galaxy A Series - Mosaic Artwork</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <style>
         * {
@@ -14,30 +14,52 @@
         }
 
         body {
-            background: #000;
-            color: white;
+            background: #0c0e1d;
             height: 100vh;
             overflow: hidden;
         }
 
-        .container {
-            position: fixed;
-            top: 0;
-            left: 0;
+        .main-container {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* Left section - Full size product image */
+        .left-section {
+            flex: 1;
+            background: #0a0c1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-image {
             width: 100%;
             height: 100%;
-            z-index: 10;
+            object-fit: contain;
+            z-index: 2;
+            transition: transform 0.3s ease;
+        }
+
+        /* Right section - Mosaic artwork */
+        .right-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #121428;
+            position: relative;
+            overflow: hidden;
         }
 
         .mosaic-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 0;
+            flex: 1;
+            position: relative;
             overflow: hidden;
-            background: rgba(0, 0, 0, 0.9);
+            z-index: 2;
+            background: rgba(0, 0, 0, 0.6);
             cursor: grab;
             touch-action: none;
             will-change: transform;
@@ -108,63 +130,129 @@
             transition: opacity 0.3s;
         }
 
-        .fullscreen-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 30;
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s;
+        .progress-container {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 15px;
+            position: relative;
+            z-index: 3;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .fullscreen-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .progress-title {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #c0c0c0;
+        }
+
+        .progress-percent {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #ffd700;
+        }
+
+        .progress-bar {
+            height: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #0bb7af, #1428a0);
+            border-radius: 10px;
+            width: 0%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: white;
+            box-shadow: 0 0 10px rgba(11, 183, 175, 0.5);
+            transition: width 1s ease-in-out;
         }
 
         /* Responsive styles */
-        @media (max-width: 768px) {
-            .mosaic-grid {
-                grid-template-columns: repeat(12, 1fr);
-                grid-template-rows: repeat(42, 1fr);
+        @media (max-width: 900px) {
+            .main-container {
+                flex-direction: column;
             }
             
-            .fullscreen-btn {
-                top: 15px;
-                right: 15px;
+            .left-section {
+                flex: 0 0 50%;
+            }
+            
+            .right-section {
+                flex: 1;
+            }
+            
+            .mosaic-grid {
+                grid-template-columns: repeat(15, 1fr);
+                grid-template-rows: repeat(30, 1fr);
             }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 600px) {
             .mosaic-grid {
                 grid-template-columns: repeat(10, 1fr);
-                grid-template-rows: repeat(50, 1fr);
+                grid-template-rows: repeat(40, 1fr);
             }
             
+            .progress-container {
+                padding: 12px;
+            }
+        }
+
+        /* Animation for product image */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .product-image {
+            animation: float 6s ease-in-out infinite;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <button class="fullscreen-btn" id="fullscreenBtn">
-            <i class="fas fa-expand"></i>
-        </button>
-
-        <div class="mosaic-container" id="mosaicContainer">
-            <div class="mosaic-wrapper" id="mosaicWrapper">
-                <img class="background-image" id="backgroundImage"
-                    src="https://photo.znews.vn/w660/Uploaded/wyhktpu/2025_04_14/image003.jpg" 
-                    alt="Khung ảnh mosaic">
-                <div class="mosaic-grid" id="mosaicGrid">
-                    <!-- Grid cells will be generated by JavaScript -->
+    <div class="main-container">
+        <div class="left-section">
+            <img class="product-image" 
+                 src="https://img.global.news.samsung.com/global/wp-content/uploads/2025/03/Samsung-Mobile-Galaxy-A-series-Galaxy-A56-5G-Galaxy-A36-5G-and-Galaxy-A26-5G_main1.jpg" 
+                 alt="Samsung Galaxy A Series">
+        </div>
+        
+        <div class="right-section">
+            <div class="mosaic-container" id="mosaicContainer">
+                <div class="mosaic-wrapper" id="mosaicWrapper">
+                    <img class="background-image" id="backgroundImage"
+                        src="https://photo.znews.vn/w660/Uploaded/wyhktpu/2025_04_14/image003.jpg" 
+                        alt="Khung ảnh mosaic">
+                    <div class="mosaic-grid" id="mosaicGrid">
+                        <!-- Grid cells will be generated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-header">
+                    <div class="progress-title">Tiến trình hoàn thành bức tranh cộng đồng</div>
+                    <div class="progress-percent" id="progressPercent">0%</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill">0%</div>
                 </div>
             </div>
         </div>
@@ -178,7 +266,8 @@
         const mosaicGrid = document.getElementById('mosaicGrid');
         const mosaicContainer = document.getElementById('mosaicContainer');
         const mosaicWrapper = document.getElementById('mosaicWrapper');
-        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        const progressPercent = document.getElementById('progressPercent');
+        const progressFill = document.getElementById('progressFill');
 
         // State
         const gridCols = 25;
@@ -195,7 +284,6 @@
 
         // Initialize the application
         document.addEventListener('DOMContentLoaded', () => {
-
             // Create grid cells
             createMosaicGrid();
 
@@ -207,9 +295,6 @@
 
             // Start realtime updates
             startRealtimeUpdates();
-
-            // Setup fullscreen button
-            setupFullscreen();
         });
 
         // Create the mosaic grid (25x20 = 500 cells)
@@ -235,6 +320,12 @@
             try {
                 const response = await axios.get(`${API_BASE_URL}/approved?pageSize=${gridSize}`);
                 const images = response.data.data || [];
+
+                // Update progress
+                const progress = Math.round((images.length / gridSize) * 100);
+                progressPercent.textContent = `${progress}%`;
+                progressFill.textContent = `${progress}%`;
+                progressFill.style.width = `${progress}%`;
 
                 // Process approved images
                 images.forEach(image => {
@@ -486,59 +577,16 @@
                         }
                     });
 
+                    // Update progress
+                    const progress = Math.round((Object.keys(approvedImages).length / gridSize) * 100);
+                    progressPercent.textContent = `${progress}%`;
+                    progressFill.textContent = `${progress}%`;
+                    progressFill.style.width = `${progress}%`;
+
                 } catch (error) {
                     console.error('Lỗi khi cập nhật realtime:', error);
                 }
             }, 10000); // Update every 10 seconds
-        }
-
-        // Setup fullscreen functionality
-        function setupFullscreen() {
-            // Create font-awesome icon manually since we don't have the CSS
-            const icon = document.createElement('i');
-            icon.style.fontStyle = 'normal';
-            icon.textContent = '⛶';
-            fullscreenBtn.appendChild(icon);
-            
-            fullscreenBtn.addEventListener('click', toggleFullscreen);
-            
-            // Listen for fullscreen change events
-            document.addEventListener('fullscreenchange', handleFullscreenChange);
-            document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
-            document.addEventListener('mozfullscreenchange', handleFullscreenChange);
-            document.addEventListener('MSFullscreenChange', handleFullscreenChange);
-        }
-
-        function toggleFullscreen() {
-            if (!document.fullscreenElement) {
-                if (document.documentElement.requestFullscreen) {
-                    document.documentElement.requestFullscreen();
-                } else if (document.documentElement.webkitRequestFullscreen) {
-                    document.documentElement.webkitRequestFullscreen();
-                } else if (document.documentElement.mozRequestFullScreen) {
-                    document.documentElement.mozRequestFullScreen();
-                } else if (document.documentElement.msRequestFullscreen) {
-                    document.documentElement.msRequestFullscreen();
-                }
-            } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                } else if (document.webkitExitFullscreen) {
-                    document.webkitExitFullscreen();
-                } else if (document.mozCancelFullScreen) {
-                    document.mozCancelFullScreen();
-                } else if (document.msExitFullscreen) {
-                    document.msExitFullscreen();
-                }
-            }
-        }
-
-        function handleFullscreenChange() {
-            if (document.fullscreenElement) {
-                fullscreenBtn.innerHTML = '⧉';
-            } else {
-                fullscreenBtn.innerHTML = '⛶';
-            }
         }
     </script>
 </body>
