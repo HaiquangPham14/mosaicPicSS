@@ -93,8 +93,6 @@
         .mosaic-container {
             flex: 1;
             /* margin-top: 108px; */
-            align-items: center;
-            justify-content: center;
             position: relative;
             overflow: hidden;
             z-index: 2;
@@ -172,8 +170,6 @@
         .progress-container {
             background: rgba(255, 255, 255, 0.08);
             border-radius: 12px;
-            padding: 12px;
-            margin: 12px;
             position: relative;
             z-index: 3;
             backdrop-filter: blur(5px);
@@ -326,6 +322,8 @@
                 max-height: 100%;
             }
             .mosaic-container {
+                margin-top: 60px;
+                margin-bottom: 30px;
                 height: 100%;
             }
         }
@@ -354,7 +352,7 @@
                 
                 <div class="progress-container">
                     <div class="progress-header">
-                        <div class="progress-title">Tiến trình hoàn thành bức tranh 111</div>
+                        <div class="progress-title">Tiến trình hoàn thành bức tranh</div>
                         <div class="progress-percent" id="progressPercent"></div>
                     </div>
                     <div class="progress-bar">
