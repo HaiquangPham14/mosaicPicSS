@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,98 +15,55 @@
         }
 
         body {
-            background: #fff;
+            background: url('https://firebasestorage.googleapis.com/v0/b/demouploadvideo-40681.firebasestorage.app/o/Layer%202.png?alt=media') no-repeat center center fixed;
+            background-size: contain;
             overflow: hidden;
             height: 100vh;
-        }
-
-        /* Container chính với scroll ngang */
-        .horizontal-scroll-container {
-            display: flex;
-            height: 100vh;
-            min-width: 1000px; /* Chiều rộng tối thiểu đảm bảo hai ảnh ngang nhau */
-            overflow-x: auto;
-            overflow-y: hidden;
-            scrollbar-width: thin;
-            scrollbar-color: #0bb7af #121428;
-        }
-
-        /* Tùy chỉnh thanh cuộn cho Chrome */
-        .horizontal-scroll-container::-webkit-scrollbar {
-            height: 8px;
-        }
-
-        .horizontal-scroll-container::-webkit-scrollbar-track {
-            background: #121428;
-        }
-
-        .horizontal-scroll-container::-webkit-scrollbar-thumb {
-            background: #0bb7af;
-            border-radius: 4px;
-        }
-
-        .main-container {
-            display: flex;
-            min-width: 100vw;
-            height: 100vh;
-        }
-
-        /* Left section - Full size product image */
-        .left-section {
-            flex: 0 0 50vw;
-            background: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             position: relative;
-            min-width: 0;
-            width: 50vw;
-            height: 100vh;
-            padding: 0;
-            margin: 0;
         }
 
-        .product-image {
-            width: 100%;
-            height: 100%;
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            z-index: 2;
-            display: block;
-        }
-
-        /* Right section - Mosaic artwork */
-        .right-section {
-            flex: 0 0 50vw;
+        /* Container chính */
+        .main-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             display: flex;
             flex-direction: column;
-            background: #fff;
+            align-items: flex-start;
+            width: 100%;
+            max-width: 1920px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Mosaic artwork section */
+        .mosaic-section {
             position: relative;
+            width: 65.43vh;
+            height: 60vh;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 30px;
             overflow: hidden;
-            min-width: 0;
-            width: 50vw;
-            height: 100vh;
-            padding: 0;
-            margin: 0;
+            box-shadow: 0 10px 50px rgba(11, 183, 175, 0.3);
+            margin-left: calc(75% - 410px);
+            border: 2px solid rgba(11, 183, 175, 0.5);
         }
 
         .mosaic-container {
-            flex: 1;
-            /* margin-top: 108px; */
+            width: 100%;
+            height: 100%;
             position: relative;
             overflow: hidden;
-            z-index: 2;
-            background: rgba(0, 0, 0, 0.03);
             cursor: grab;
             touch-action: none;
             will-change: transform;
-            height: 100%;
-            min-height: 0;
         }
 
         .mosaic-wrapper {
-            position: relative;
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             transform-origin: 0 0;
@@ -118,9 +76,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: fill;
+            object-fit: cover;
             z-index: 1;
-            opacity: 0.3;
         }
 
         .mosaic-grid {
@@ -133,15 +90,14 @@
             grid-template-columns: repeat(25, 1fr);
             grid-template-rows: repeat(20, 1fr);
             z-index: 10;
-            opacity: 0.05;
-            transition: opacity 0.3s;
+            transition: opacity 0.5s ease;
         }
 
         .grid-cell {
-            border: 0.5px solid rgba(255, 255, 255, 0.05);
             overflow: hidden;
             position: relative;
             transition: all 0.3s ease;
+            border: 0.1px solid rgba(255, 255, 255, 0.02);
         }
 
         .grid-cell img {
@@ -152,212 +108,202 @@
             top: 0;
             left: 0;
             z-index: 1;
-            filter: brightness(1.2);
-            transition: filter 0.3s;
-        }
-
-        .grid-cell .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            z-index: 2;
-            transition: opacity 0.3s;
+            filter: brightness(1.1);
+            transition: all 0.5s ease;
+            opacity: 0.5;
         }
 
         .progress-container {
             background: rgba(255, 255, 255, 0.08);
             border-radius: 12px;
+            padding: 12px;
+            margin-top: 20px;
+            width: 65.43vh;
             position: relative;
             z-index: 3;
             backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .progress-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
-
-        .progress-title {
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: #c0c0c0;
-        }
-
-        .progress-percent {
-            font-size: 1rem;
-            font-weight: 700;
-            color: #ffd700;
+            margin-left: calc(75% - 410px);
         }
 
         .progress-bar {
-            height: 12px;
+            height: 24px;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
             position: relative;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+            border: 1px solid black;
+            /* Viền đen mỏng */
         }
 
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, #0bb7af, #1428a0);
-            border-radius: 8px;
+            border-radius: 12px;
             width: 0%;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            padding-right: 6px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: white;
-            box-shadow: 0 0 8px rgba(11, 183, 175, 0.5);
             transition: width 1s ease-in-out;
         }
 
-        /* Animation for product image */
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
+        .progress-text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #000;
+            text-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
+            z-index: 2;
         }
-        
-        
+
+        /* Animation */
         @keyframes pulse {
-            0% { opacity: 0.4; }
-            50% { opacity: 1; }
-            100% { opacity: 0.4; }
+            0% {
+                box-shadow: 0 0 0 0 rgba(11, 183, 175, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(11, 183, 175, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(11, 183, 175, 0);
+            }
         }
-        
-        
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateX(0);}
-            40% {transform: translateX(-10px);}
-            60% {transform: translateX(-5px);}
+
+        .pulse {
+            animation: pulse 2s infinite;
         }
 
-        /* Responsive Styles */
-        @media (max-width: 999px) {
-            body {
-                overflow-y: auto;
-                overflow-x: hidden;
-                height: auto;
+        /* Responsive Styles - Màn hình thông thường */
+        @media (max-width: 900px) {
+            .mosaic-section {
+                width: 65.43vh;
+                height: 60vh;
+                height: calc(80vw * 752 / 820);
+                margin-left: calc(75% - 40vw);
             }
 
-            .horizontal-scroll-container {
-                display: block;
-                height: auto;
-                min-width: 0;
-                overflow-x: hidden;
-                scrollbar-width: none;
+            .progress-container {
+                width: 65.43vh;
+                margin-left: calc(75% - 40vw);
             }
-            .horizontal-scroll-container::-webkit-scrollbar {
-                display: none;
+        }
+
+        @media (max-width: 600px) {
+            .mosaic-section {
+                width: 65.43vh;
+                height: 60vh;
+                height: calc(95vw * 752 / 820);
+                margin-left: calc(75% - 47.5vw);
             }
 
+            .progress-container {
+                width: 65.43vh;
+                margin-left: calc(75% - 47.5vw);
+            }
+
+            .progress-bar {
+                height: 18px;
+            }
+
+            .progress-text {
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-height: 700px) {
             .main-container {
-                flex-direction: column;
-                height: auto;
-                min-width: 100%;
-            }
-
-            .left-section, .right-section {
-                flex-basis: auto;
-                min-width: 0;
-                width: 100vw;
-                height: 60vw;
-                min-height: 220px;
-                max-height: 90vh;
-                padding: 0;
-                margin: 0;
-            }
-            .product-image {
-                width: 100%;
-                height: 100%;
-                max-width: 100vw;
-                max-height: 100%;
-            }
-            .mosaic-container {
-                height: 100%;
-                width: 100%;
+                transform: translate(-50%, -50%) scale(0.9);
             }
         }
-        
-        @media (max-width: 999px) and (orientation: landscape) {
-            body {
-                overflow: hidden;
-                height: 100vh;
-            }
 
-            .horizontal-scroll-container {
+        @media (max-height: 600px) {
+            .main-container {
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+        }
+
+        /* Responsive cho điện thoại ngang (landscape) */
+        @media (orientation: landscape) and (max-height: 500px) {
+            body {
+                overflow: auto;
                 display: flex;
-                height: 100vh;
-                overflow: hidden;
+                justify-content: flex-end;
+                align-items: center;
+                padding: 10px;
             }
 
             .main-container {
-                flex-direction: row;
-                width: 100vw;
-                height: 100vh;
-            }
-
-            .left-section, .right-section {
-                flex: 1 1 50%;
-                min-width: 0;
-                width: 50vw;
-                height: 100vh;
+                position: relative;
+                top: auto;
+                left: auto;
+                transform: none;
+                width: 50%;
+                height: auto;
                 padding: 0;
                 margin: 0;
+                align-items: center;
             }
-            .left-section {
-                align-items: flex-start !important;
+
+            .mosaic-section {
+                width: 65.43vh;
+                height: 60vh;
+                margin: 0;
+                max-height: 85%;
+                border-radius: 8px;
+                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
             }
-            .product-image {
-                width: 100%;
-                height: 100%;
-                max-width: 100%;
-                max-height: 100%;
+
+            .progress-container {
+                width: 65.43vh;
+                margin: 10px 0 0 0;
+                border-radius: 8px;
             }
+
             .mosaic-container {
-                margin-top: 60px;
-                margin-bottom: 30px;
                 height: 100%;
+            }
+        }
+
+        /* Tối ưu cho điện thoại ngang có chiều cao rất thấp */
+        @media (orientation: landscape) and (max-height: 400px) {
+            .mosaic-section {
+                width: 65.43vh;
+                height: 60vh;
+            }
+
+            .progress-container {
+                width: 65.43vh;
             }
         }
     </style>
 </head>
+
 <body>
-    <div class="horizontal-scroll-container">
-        <div class="main-container">
-            <div class="left-section">
-                <img class="product-image" 
-                     src="https://img.global.news.samsung.com/global/wp-content/uploads/2025/03/Samsung-Mobile-Galaxy-A-series-Galaxy-A56-5G-Galaxy-A36-5G-and-Galaxy-A26-5G_main1.jpg" 
-                     alt="Samsung Galaxy A Series">
-            </div>
-            
-            <div class="right-section">
-                <div class="mosaic-container" id="mosaicContainer">
-                    <div class="mosaic-wrapper" id="mosaicWrapper">
-                        <img class="background-image" id="backgroundImage"
-                            src="https://photo.znews.vn/w660/Uploaded/wyhktpu/2025_04_14/image003.jpg" 
-                            alt="Khung ảnh mosaic">
-                        <div class="mosaic-grid" id="mosaicGrid">
-                            <!-- Grid cells will be generated by JavaScript -->
-                        </div>
+    <div class="main-container">
+        <div class="mosaic-section">
+            <div class="mosaic-container" id="mosaicContainer">
+                <div class="mosaic-wrapper" id="mosaicWrapper">
+                    <img class="background-image" id="backgroundImage"
+                        src="https://firebasestorage.googleapis.com/v0/b/demouploadvideo-40681.firebasestorage.app/o/Group%202.png?alt=media"
+                        alt="Khung ảnh mosaic">
+                    <div class="mosaic-grid" id="mosaicGrid">
+                        <!-- Grid cells will be generated by JavaScript -->
                     </div>
                 </div>
-                
-                <div class="progress-container">
-                    <div class="progress-header">
-                        <div class="progress-title">Tiến trình hoàn thành bức tranh</div>
-                        <div class="progress-percent" id="progressPercent"></div>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progressFill">0%</div>
-                    </div>
+            </div>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill">
+                    <div class="progress-text" id="progressText">0%</div>
                 </div>
             </div>
         </div>
@@ -371,8 +317,8 @@
         const mosaicGrid = document.getElementById('mosaicGrid');
         const mosaicContainer = document.getElementById('mosaicContainer');
         const mosaicWrapper = document.getElementById('mosaicWrapper');
-        const progressPercent = document.getElementById('progressPercent');
         const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
 
         // State
         const gridCols = 25;
@@ -400,19 +346,6 @@
 
             // Start realtime updates
             startRealtimeUpdates();
-            
-            // Auto-scroll to center on small screens
-            if (window.innerWidth < 1000) {
-                setTimeout(() => {
-                    // Only scroll in portrait mode on mobile
-                    if (window.matchMedia("(orientation: portrait)").matches) {
-                        document.querySelector('.horizontal-scroll-container').scrollTo({
-                            left: window.innerWidth / 2,
-                            behavior: 'smooth'
-                        });
-                    }
-                }, 1000);
-            }
         });
 
         // Create the mosaic grid (25x20 = 500 cells)
@@ -423,12 +356,6 @@
                 const cell = document.createElement('div');
                 cell.className = 'grid-cell';
                 cell.dataset.position = i;
-
-                // Overlay
-                const overlay = document.createElement('div');
-                overlay.className = 'overlay';
-                cell.appendChild(overlay);
-
                 mosaicGrid.appendChild(cell);
             }
         }
@@ -440,10 +367,7 @@
                 const images = response.data.data || [];
 
                 // Update progress
-                const progress = Math.round((images.length / gridSize) * 100);
-                progressPercent.textContent = `${progress}%`;
-                progressFill.textContent = `${progress}%`;
-                progressFill.style.width = `${progress}%`;
+                updateProgress(images.length);
 
                 // Process approved images
                 images.forEach(image => {
@@ -461,19 +385,45 @@
             const cell = document.querySelector(`.grid-cell[data-position="${position}"]`);
             if (!cell) return;
 
-            // Remove existing image if any
-            const existingImg = cell.querySelector('img');
-            if (existingImg) {
-                existingImg.remove();
-            }
-
             // Create image element
             const img = document.createElement('img');
             img.src = imageUrl;
             img.alt = `Ảnh mosaic vị trí ${position}`;
 
-            // Add image to cell
-            cell.insertBefore(img, cell.firstChild);
+            // Set initial opacity based on current scale
+            img.style.opacity = calculateOpacity(scale);
+
+            // Clear existing content
+            cell.innerHTML = '';
+            cell.appendChild(img);
+        }
+
+        // Update progress display
+        function updateProgress(count) {
+            const progress = Math.round((count / gridSize) * 100);
+            progressFill.style.width = `${progress}%`;
+            progressText.textContent = `${progress}%`;
+        }
+
+        // Calculate opacity based on scale
+        function calculateOpacity(currentScale) {
+            if (currentScale <= 1) {
+                return 0.05;
+            } else if (currentScale >= 3) {
+                return 1;
+            } else {
+                return 0.5 + (currentScale - 1) * 0.25;
+            }
+        }
+
+        // Update image opacity
+        function updateOpacity() {
+            const images = document.querySelectorAll('.grid-cell img');
+            const opacity = calculateOpacity(scale);
+
+            images.forEach(img => {
+                img.style.opacity = opacity;
+            });
         }
 
         // Constrain translation to image boundaries
@@ -488,27 +438,14 @@
 
             // Calculate maximum translation values
             const maxTranslateX = Math.max(0, (containerWidth - scaledWidth) / 2);
-            const minTranslateX = Math.min(0, containerWidth - scaledWidth - maxTranslateX);
+            const minTranslateX = Math.min(0, -(scaledWidth - containerWidth) + maxTranslateX);
 
             const maxTranslateY = Math.max(0, (containerHeight - scaledHeight) / 2);
-            const minTranslateY = Math.min(0, containerHeight - scaledHeight - maxTranslateY);
+            const minTranslateY = Math.min(0, -(scaledHeight - containerHeight) + maxTranslateY);
 
             // Constrain translation values
             translateX = Math.max(minTranslateX, Math.min(maxTranslateX, translateX));
             translateY = Math.max(minTranslateY, Math.min(maxTranslateY, translateY));
-        }
-
-        // Update grid opacity based on scale
-        function updateGridOpacity() {
-            if (scale <= 1) {
-                mosaicGrid.style.opacity = 0.05;
-            } else if (scale >= 4) {
-                mosaicGrid.style.opacity = 1;
-            } else {
-                // Tăng opacity dần từ 0.05 lên 1 khi scale từ 1 đến 4
-                const opacity = 0.05 + (scale - 1) * (0.95 / 3);
-                mosaicGrid.style.opacity = opacity;
-            }
         }
 
         // Apply transform to wrapper
@@ -521,8 +458,40 @@
             scale = 1;
             translateX = 0;
             translateY = 0;
-            mosaicGrid.style.opacity = 0.05;
             applyTransform();
+            updateOpacity();
+        }
+
+        // Zoom in/out with boundary constraints
+        function zoom(zoomFactor, centerX, centerY) {
+            // Calculate new scale with limits - min 1, max 4
+            const newScale = Math.max(1, Math.min(4, scale * zoomFactor));
+
+            // Don't allow zoom out if at original size
+            if (newScale === scale) return;
+
+            // Calculate the position as a percentage
+            const rect = mosaicContainer.getBoundingClientRect();
+            const xPercent = (centerX - rect.left) / rect.width;
+            const yPercent = (centerY - rect.top) / rect.height;
+
+            // Calculate the change in translation
+            const dx = (xPercent - 0.5) * rect.width * (1 - (newScale / scale));
+            const dy = (yPercent - 0.5) * rect.height * (1 - (newScale / scale));
+
+            // Update scale and translation
+            scale = newScale;
+            translateX += dx;
+            translateY += dy;
+
+            // Constrain translation to image boundaries
+            constrainTranslation();
+
+            // Apply transformation
+            applyTransform();
+
+            // Update opacity
+            updateOpacity();
         }
 
         // Setup zoom and panning
@@ -544,7 +513,7 @@
             mosaicContainer.addEventListener('dblclick', resetZoom);
         }
 
-        // Handle mouse wheel zoom
+        // Handle mouse wheel zoom with boundary constraints
         function handleWheel(e) {
             e.preventDefault();
 
@@ -553,35 +522,8 @@
             const wheelDelta = e.deltaY;
             let zoomFactor = 1 + (wheelDelta < 0 ? zoomIntensity : -zoomIntensity);
 
-            // Calculate new scale with limits
-            const newScale = Math.max(1, Math.min(8, scale * zoomFactor));
-
-            // Calculate relative position of mouse
-            const rect = mosaicContainer.getBoundingClientRect();
-            const mouseX = e.clientX - rect.left;
-            const mouseY = e.clientY - rect.top;
-
-            // Calculate the position as a percentage of the container
-            const xPercent = mouseX / rect.width;
-            const yPercent = mouseY / rect.height;
-
-            // Calculate the change in translation
-            const dx = (xPercent - 0.5) * rect.width * (1 - zoomFactor);
-            const dy = (yPercent - 0.5) * rect.height * (1 - zoomFactor);
-
-            // Update scale and translation
-            scale = newScale;
-            translateX += dx;
-            translateY += dy;
-
-            // Constrain translation to image boundaries
-            constrainTranslation();
-
-            // Update grid opacity
-            updateGridOpacity();
-
-            // Apply transformation
-            applyTransform();
+            // Zoom with mouse position as center
+            zoom(zoomFactor, e.clientX, e.clientY);
         }
 
         // Mouse drag panning
@@ -643,30 +585,13 @@
 
                 if (lastTouchDistance !== null) {
                     const zoomFactor = touchDistance / lastTouchDistance;
-                    const newScale = Math.max(1, Math.min(8, scale * zoomFactor));
 
                     // Calculate midpoint for zoom center
                     const midX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
                     const midY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
 
-                    const rect = mosaicContainer.getBoundingClientRect();
-                    const xPercent = (midX - rect.left) / rect.width;
-                    const yPercent = (midY - rect.top) / rect.height;
-
-                    const dx2 = (xPercent - 0.5) * rect.width * (1 - zoomFactor);
-                    const dy2 = (yPercent - 0.5) * rect.height * (1 - zoomFactor);
-
-                    scale = newScale;
-                    translateX += dx2;
-                    translateY += dy2;
-
-                    // Constrain translation to image boundaries
-                    constrainTranslation();
-
-                    // Update grid opacity
-                    updateGridOpacity();
-
-                    applyTransform();
+                    // Zoom with touch center
+                    zoom(zoomFactor, midX, midY);
                 }
 
                 lastTouchDistance = touchDistance;
@@ -685,6 +610,7 @@
                 try {
                     const response = await axios.get(`${API_BASE_URL}/approved?pageSize=${gridSize}`);
                     const images = response.data.data || [];
+                    const newImages = [];
 
                     // Process each image
                     images.forEach(image => {
@@ -692,14 +618,27 @@
                         if (!approvedImages[image.position] || approvedImages[image.position] !== image.imgUrl) {
                             approvedImages[image.position] = image.imgUrl;
                             updateGridCell(image.position, image.imgUrl);
+                            newImages.push(image.position);
                         }
                     });
 
                     // Update progress
-                    const progress = Math.round((Object.keys(approvedImages).length / gridSize) * 100);
-                    progressPercent.textContent = `${progress}%`;
-                    progressFill.textContent = `${progress}%`;
-                    progressFill.style.width = `${progress}%`;
+                    updateProgress(Object.keys(approvedImages).length);
+
+                    // Visual feedback for new images
+                    if (newImages.length > 0) {
+                        newImages.forEach(pos => {
+                            const cell = document.querySelector(`.grid-cell[data-position="${pos}"]`);
+                            if (cell) {
+                                cell.style.transform = 'scale(1.2)';
+                                cell.style.boxShadow = '0 0 15px rgba(11, 183, 175, 0.8)';
+                                setTimeout(() => {
+                                    cell.style.transform = 'scale(1)';
+                                    cell.style.boxShadow = 'none';
+                                }, 1000);
+                            }
+                        });
+                    }
 
                 } catch (error) {
                     console.error('Lỗi khi cập nhật realtime:', error);
@@ -708,4 +647,5 @@
         }
     </script>
 </body>
+
 </html>
