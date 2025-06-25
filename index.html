@@ -303,7 +303,7 @@
         <div class="progress-container">
             <div class="progress-bar">
                 <div class="progress-fill" id="progressFill">
-                    <div class="progress-text" id="progressText">0%</div>
+                    <div class="progress-text" id="progressText">0% Sunday</div>
                 </div>
             </div>
         </div>
@@ -402,7 +402,7 @@
         function updateProgress(count) {
             const progress = Math.round((count / gridSize) * 100);
             progressFill.style.width = `${progress}%`;
-            progressText.textContent = `${progress}%`;
+            progressText.textContent = `${progress}%` + ' Sunday';
         }
 
         // Calculate opacity based on scale
